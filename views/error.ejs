@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Error <%= statusCode %> — Quora CRUD">
+    <title>Error <%= statusCode %> — Quora</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/posts" class="site-logo">Q<span>uora</span></a>
+            <div class="header-action">
+                <a href="/posts/new" id="header-create-btn">+ Create Post</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="error-container" id="error-page">
+            <div class="error-code"><%= statusCode %></div>
+            <h1 class="error-title">
+                <% if(statusCode === 404) { %>
+                    Page Not Found
+                <% } else { %>
+                    Something Went Wrong
+                <% } %>
+            </h1>
+            <p class="error-message"><%= message %></p>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <a href="/posts" class="btn btn-primary" id="go-home-btn">&#8592; Back to Posts</a>
+                <a href="/posts/new" class="btn btn-outline" id="create-new-btn">Create a Post</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Quora CRUD &copy; <%= new Date().getFullYear() %> &nbsp;·&nbsp; Built with Node.js, Express &amp; EJS</p>
+    </footer>
+
+</body>
+</html>

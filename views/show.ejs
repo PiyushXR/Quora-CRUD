@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Post by @<%= post.username %> on Quora CRUD">
+    <title>@<%= post.username %>'s Post — Quora</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/posts" class="site-logo">Q<span>uora</span></a>
+            <div class="header-action">
+                <a href="/posts/new" id="header-create-btn">+ Create Post</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-container">
+            <a href="/posts" class="back-link" id="back-to-posts">&#8592; Back to Posts</a>
+
+            <div class="detail-card" id="post-detail-<%= post.id %>">
+                <h1 class="page-title">Post Detail</h1>
+
+                <div class="detail-field">
+                    <div class="detail-label">Post ID</div>
+                    <div class="detail-value" id="detail-id"><%= post.id %></div>
+                </div>
+
+                <div class="detail-field">
+                    <div class="detail-label">Author</div>
+                    <div class="detail-value" id="detail-author">@<%= post.username %></div>
+                </div>
+
+                <% if(post.createdAt) { %>
+                    <div class="detail-field">
+                        <div class="detail-label">Posted On</div>
+                        <div class="detail-value" id="detail-date"><%= post.createdAt %></div>
+                    </div>
+                <% } %>
+
+                <div class="detail-field">
+                    <div class="detail-label">Content</div>
+                    <div class="detail-content" id="detail-content"><%= post.content %></div>
+                </div>
+
+                <div class="post-actions" style="margin-top: 22px;">
+                    <a href="/posts/<%= post.id %>/edit" class="btn btn-edit" id="edit-post-btn">Edit Post</a>
+                    <form class="delete-form" method="post" action="/posts/<%= post.id %>?_method=DELETE" id="delete-post-form" onsubmit="return confirm('Delete this post permanently?')">
+                        <button class="btn btn-delete" id="delete-post-btn">Delete Post</button>
+                    </form>
+                    <a href="/posts" class="btn btn-outline" id="back-btn-detail">Back to Feed</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Quora CRUD &copy; <%= new Date().getFullYear() %> &nbsp;·&nbsp; Built with Node.js, Express &amp; EJS</p>
+    </footer>
+
+</body>
+</html>

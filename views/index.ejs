@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quora CRUD — Discover what people are talking about. Read, create, edit and delete community posts.">
+    <title>Quora — Community Posts</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/posts" class="site-logo">Q<span>uora</span></a>
+            <div class="header-action">
+                <a href="/posts/new" id="create-post-btn">+ Create Post</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <div class="page-container">
+
+            <div class="posts-header">
+                <h1 class="page-title">Community Posts</h1>
+                <span class="post-count-badge" id="post-count-badge"><%= posts.length %> post<%= posts.length !== 1 ? 's' : '' %></span>
+            </div>
+            <p class="page-subtitle">Discover what people are talking about</p>
+            <div class="posts-divider"></div>
+
+            <% if(posts.length === 0) { %>
+                <div class="empty-state" id="empty-state">
+                    <span class="empty-icon">📝</span>
+                    <p>No posts yet. Be the first to share something!</p>
+                    <a href="/posts/new" class="btn btn-primary" id="empty-create-btn">Create the First Post</a>
+                </div>
+            <% } %>
+
+            <% for(let post of posts) { %>
+                <div class="post-card" id="post-<%= post.id %>">
+                    <div class="post-card-header">
+                        <div class="avatar"><%= post.username.charAt(0).toUpperCase() %></div>
+                        <div class="post-meta">
+                            <span class="post-username">@<%= post.username %></span>
+                            <span class="post-label">Community Member</span>
+                        </div>
+                        <% if(post.createdAt) { %>
+                            <span class="post-date"><%= post.createdAt %></span>
+                        <% } %>
+                    </div>
+
+                    <p class="post-content"><%= post.content %></p>
+
+                    <div class="post-actions">
+                        <a href="/posts/<%= post.id %>" class="btn btn-outline" id="view-<%= post.id %>">View</a>
+                        <a href="/posts/<%= post.id %>/edit" class="btn btn-edit" id="edit-<%= post.id %>">Edit</a>
+                        <form class="delete-form" method="post" action="/posts/<%= post.id %>?_method=DELETE" id="delete-form-<%= post.id %>" onsubmit="return confirm('Delete this post?')">
+                            <button class="btn btn-delete" id="delete-<%= post.id %>">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>Quora CRUD &copy; <%= new Date().getFullYear() %> &nbsp;·&nbsp; Built with Node.js, Express &amp; EJS &nbsp;·&nbsp; <a href="https://github.com" target="_blank">GitHub</a></p>
+    </footer>
+
+</body>
+</html>

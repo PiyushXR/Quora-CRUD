@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edit post by @<%= post.username %> on Quora CRUD">
+    <title>Edit Post — Quora</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/posts" class="site-logo">Q<span>uora</span></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-container">
+            <a href="/posts" class="back-link" id="back-to-posts">&#8592; Back to Posts</a>
+
+            <div class="form-card">
+                <h1 class="page-title">Edit Post</h1>
+                <p class="page-subtitle">Update your post content below</p>
+
+                <div class="form-info">
+                    <strong>Author:</strong> @<%= post.username %> &nbsp;|&nbsp;
+                    <strong>ID:</strong> <%= post.id %>
+                </div>
+
+                <!-- Error banner -->
+                <% if(error) { %>
+                    <div class="alert alert-error" id="edit-error" role="alert">
+                        <span class="alert-icon">⚠️</span>
+                        <span><%= error %></span>
+                    </div>
+                <% } %>
+
+                <form method="post" action="/posts/<%= post.id %>?_method=PATCH" id="edit-post-form" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="content">
+                            Post Content
+                            <span class="char-counter" id="content-counter">0 / 500</span>
+                        </label>
+                        <textarea
+                            class="form-textarea"
+                            id="content"
+                            name="content"
+                            rows="6"
+                            maxlength="500"
+                            required
+                        ><%= post.content %></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit" id="save-changes-btn">Save Changes</button>
+                        <a href="/posts" class="btn btn-outline" id="cancel-edit-btn">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>Quora CRUD &copy; <%= new Date().getFullYear() %> &nbsp;·&nbsp; Built with Node.js, Express &amp; EJS</p>
+    </footer>
+
+    <script>
+        // Character counter
+        function setupCounter(inputId, counterId, max) {
+            const input = document.getElementById(inputId);
+            const counter = document.getElementById(counterId);
+            if (!input || !counter) return;
+
+            const update = () => {
+                const len = input.value.length;
+                counter.textContent = `${len} / ${max}`;
+                counter.className = 'char-counter';
+                if (len >= max * 0.9) counter.classList.add('danger');
+                else if (len >= max * 0.7) counter.classList.add('warn');
+            };
+            input.addEventListener('input', update);
+            update();
+        }
+
+        setupCounter('content', 'content-counter', 500);
+
+        // Client-side validation
+        document.getElementById('edit-post-form').addEventListener('submit', function(e) {
+            const content = document.getElementById('content').value.trim();
+            if (!content) {
+                e.preventDefault();
+                alert('Post content cannot be empty.');
+            }
+        });
+    </script>
+
+</body>
+</html>
